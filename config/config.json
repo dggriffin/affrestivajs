@@ -1,3 +1,3 @@
 {
-	AFFRESTIVA_API : 'http://vistatodolistapi.azurewebsites.net'
+	"AFFRESTIVA_API" : "http://vistatodolistapi.azurewebsites.net"
 }
