@@ -1,3 +1,4 @@
 {
-	"AFFRESTIVA_API" : "http://vistatodolistapi.azurewebsites.net"
+	"AFFRESTIVA_API" : "http://vistatodolistapi.azurewebsites.net",
+	"TEST_API" : "http://posttestserver.com/post.php"
 }

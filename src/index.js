@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import AFFRESTIVA_API from '../config/config.json';
-import TEST_POST from 'http://posttestserver.com/post.php';
+import TEST_API from '../config/config.json';
 
 const TEST_EMOTION_OBJECT = {
   anger: false,
@@ -69,7 +69,7 @@ function _testPost(file, callback){
     formData.append("image", _dataURItoBlob(file), "imagefile.png");
 
     $.ajax({
-        url: TEST_POST,
+        url: TEST_API,
         data: formData,
         processData: false,
         contentType: false,

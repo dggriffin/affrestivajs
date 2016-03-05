@@ -1,6 +1,6 @@
 {
   "name": "affrestivajs",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A Javascript object-wrapper for the Affectiva REST api.",
   "main": "lib/index.js",
   "scripts": {
