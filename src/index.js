@@ -1,18 +1,52 @@
 import $ from 'jquery';
 import AFFRESTIVA_API from '../config/config.json';
+import TEST_POST from 'http://posttestserver.com/post.php';
+
+const TEST_EMOTION_OBJECT = {
+  anger: false,
+  attention: false,
+  browFurrow: false,
+  browRaise: false,
+  chinRaise: false,
+  contempt: false,
+  disgust: false,
+  engagement: false,
+  eyeClosure: false,
+  fear: false,
+  gender: false,
+  glasses: false,
+  innerBrowRaise: false,
+  joy: false,
+  lipCornerDepressor: false,
+  lipPress: false,
+  lipPucker: false,
+  lipSuck: false,
+  mouthOpen: false,
+  noseWrinkle: false,
+  sadness: false,
+  smile: false,
+  surprise: false,
+  upperLipRaise: false,
+  valence: false
+};
 
 /**
  * Takes an imageURI and callback, processes image with affrestiva API
  */
-export function processImage(imageURI, callback) {
-  _POST(imageFile, callback);
+export function processImage(imageURI, callback, {debug=false}) {
+  if (!debug){
+    _post(imageFile, callback);
+  }
+  else {
+    _testPost(imageFile, callback);
+  }
 };
 
 
 /**
   * PRIVATE HELPER FUNCTIONS
   */
-function _POST (file, callback){
+function _post (file, callback){
     let formData = new FormData();
     formData.append("image", _dataURItoBlob(file), "imagefile.png");
 
@@ -25,6 +59,24 @@ function _POST (file, callback){
         success: function(data) {
           if(callback){
             callback({success: true, data: data});
+          }
+        }
+    });
+};
+
+function _testPost(file, callback){
+    let formData = new FormData();
+    formData.append("image", _dataURItoBlob(file), "imagefile.png");
+
+    $.ajax({
+        url: TEST_POST,
+        data: formData,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function(data) {
+          if(callback){
+            callback({success: true, data: TEST_EMOTION_OBJECT});
           }
         }
     });
