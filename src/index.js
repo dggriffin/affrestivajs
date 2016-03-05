@@ -1,12 +1,10 @@
-const AFFRESTIVA_API = 'http://vistatodolistapi.azurewebsites.net/';
 import $ from 'jquery';
+import AFFRESTIVA_API from '../config/config.json';
 
 /**
- * Find JSON configuration given a filename
- * Applies .mitto constraints if your package has a .mitto package present
- * @return {json converted to Object}
+ * Takes an imageURI and callback, processes image with affrestiva API
  */
-export function processImage(imageFile, callback) {
+export function processImage(imageURI, callback) {
   _POST(imageFile, callback);
 };
 
@@ -14,18 +12,13 @@ export function processImage(imageFile, callback) {
 /**
   * PRIVATE HELPER FUNCTIONS
   */
-
-
-let _POST = (file, callback) => {
-    if (!file || !file.type.match(/image.*/)) return;
-
-    //Creates the FormData object and attach to a key name "file"
-    var fd = new FormData();
-    fd.append("image", file);
+function _POST (file, callback){
+    let formData = new FormData();
+    formData.append("image", _dataURItoBlob(file), "imagefile.png");
 
     $.ajax({
         url: AFFRESTIVA_API,
-        data: fd,
+        data: formData,
         processData: false,
         contentType: false,
         type: 'POST',
@@ -35,4 +28,26 @@ let _POST = (file, callback) => {
           }
         }
     });
-}
+};
+
+
+function _dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    let byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    let ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], {
+        type: mimeString
+    });
+};
